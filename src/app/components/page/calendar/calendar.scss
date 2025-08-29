@@ -1,0 +1,68 @@
+.calendar-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	border: 1px solid #ccc;
+
+	.header {
+		display: grid;
+		grid-template-columns: repeat(7, 1fr);
+		background-color: #f5f5f5;
+		font-weight: bold;
+
+		.day-name {
+			padding: 8px;
+			text-align: center;
+			border-bottom: 1px solid #ccc;
+		}
+	}
+
+	.week {
+		display: grid;
+		grid-template-columns: repeat(7, 1fr);
+		min-height: 120px;
+
+		.day {
+			padding: 8px;
+			border-right: 1px solid #ccc;
+			border-bottom: 1px solid #ccc;
+
+			&:last-child {
+				border-right: none;
+			}
+
+			&.other-month {
+				background-color: #f9f9f9;
+				.day-number {
+					color: #aaa;
+				}
+			}
+
+			.day-number {
+				font-size: 14px;
+				font-weight: bold;
+				margin-bottom: 4px;
+			}
+
+			.events {
+				.event-card {
+					margin-bottom: 4px;
+					padding: 4px;
+					font-size: 12px;
+
+					.event-title {
+						font-size: 12px;
+						margin: 0;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+				}
+			}
+		}
+	}
+
+	.week:last-child {
+		border-bottom: none;
+	}
+}

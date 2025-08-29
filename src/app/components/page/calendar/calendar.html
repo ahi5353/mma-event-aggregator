@@ -1,15 +1,30 @@
 <div class="calendar-container">
-	@for (event of events; track event.id) {
-		<mat-card class="event-card">
-			<mat-card-header>
-				<mat-card-title>{{ event.title }}</mat-card-title>
-				<mat-card-subtitle>{{ event.start | date:'fullDate' }}</mat-card-subtitle>
-			</mat-card-header>
-			<mat-card-content>
-				<p>{{ event.meta.description }}</p>
-				<p><strong>Location:</strong> {{ event.meta.location }}</p>
-				<p><strong>Organization:</strong> {{ event.meta.organization }}</p>
-			</mat-card-content>
-		</mat-card>
+	<div class="header">
+		<div class="day-name">月</div>
+		<div class="day-name">火</div>
+		<div class="day-name">水</div>
+		<div class="day-name">木</div>
+		<div class="day-name">金</div>
+		<div class="day-name">土</div>
+		<div class="day-name">日</div>
+	</div>
+	@for (week of weeks; track $index) {
+		<div class="week">
+			@for (day of week; track day.date) {
+				<div
+					class="day"
+					[ngClass]="{ 'other-month': !day.isCurrentMonth }"
+				>
+					<div class="day-number">{{ day.date | date: 'd' }}</div>
+					<div class="events">
+						@for (event of day.events; track event.id) {
+							<mat-card class="event-card">
+								<mat-card-title class="event-title">{{ event.title }}</mat-card-title>
+							</mat-card>
+						}
+					</div>
+				</div>
+			}
+		</div>
 	}
 </div>

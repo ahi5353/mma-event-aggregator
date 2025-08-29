@@ -1,0 +1,3 @@
+Serving from path: /app/dist/mma-event-colendar
+Using default file: /app/dist/mma-event-colendar/index.html
+Error: rootFile index.html could not be found in the specified path /app/dist/mma-event-colendar
