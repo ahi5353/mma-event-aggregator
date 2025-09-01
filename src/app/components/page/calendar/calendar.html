@@ -22,7 +22,10 @@
 						class="day"
 						[ngClass]="{ 'other-month': !day.isCurrentMonth, 'today': day.isToday }"
 					>
-					<div class="day-number">{{ day.date | date: 'd' }}</div>
+					<div class="day-header">
+						<div class="day-number">{{ day.date | date: 'd' }}</div>
+						<div class="day-name-mobile">{{ day.date | date: 'E' }}</div>
+					</div>
 					<div class="events">
 						@for (event of day.events; track event.id) {
 							<mat-card class="event-card">

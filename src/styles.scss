@@ -6,6 +6,12 @@
 @use '@angular/material' as mat;
 @use './app/styles/theme-colors' as colors;
 
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
 $secondary-theme: mat.define-theme((
 	color: (
 		theme-type: light,
