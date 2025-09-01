@@ -15,12 +15,14 @@ import { TournamentEvent } from '../../../services/model/tournament-event.model'
 export class Calendar implements OnInit {
 	weeks: CalendarDay[][] = [];
 	currentDate = new Date();
+	eventsData: TournamentEvent[] = [];
 
 	constructor(private eventService: EventService) {}
 
 	ngOnInit(): void {
 		this.eventService.getEvents().subscribe((data) => {
-			this.buildCalendar(data, this.currentDate);
+			this.eventsData = data;
+			this.buildCalendar(this.eventsData, this.currentDate);
 		});
 	}
 
@@ -78,6 +80,16 @@ export class Calendar implements OnInit {
 		for (let i = 0; i < array.length; i += size) {
 			chunks.push(array.slice(i, i + size));
 		}
-		return chunks;
+	return chunks;
+}
+
+	goToPreviousMonth(): void {
+		this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+		this.buildCalendar(this.eventsData, this.currentDate);
+	}
+
+	goToNextMonth(): void {
+		this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+		this.buildCalendar(this.eventsData, this.currentDate);
 	}
 }
