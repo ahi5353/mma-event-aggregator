@@ -1,11 +1,11 @@
 <div class="calendar-container">
-<div class="header">
-	<div class="nav-header">
+	<div class="header">
 		<button class="nav-button" (click)="goToPreviousMonth()">← 前月</button>
-		<div class="month-label">{{ currentDate() | date:'yyyy年M月' }}</div>
+		<div class="month-label">{{ currentDate() | date: 'yyyy年M月' }}</div>
 		<button class="nav-button" (click)="goToNextMonth()">次月 →</button>
 	</div>
-	<div class="day-names">
+
+	<div class="calendar-grid">
 		<div class="day-name">月</div>
 		<div class="day-name">火</div>
 		<div class="day-name">水</div>
@@ -13,28 +13,21 @@
 		<div class="day-name">金</div>
 		<div class="day-name">土</div>
 		<div class="day-name">日</div>
-	</div>
-</div>
-	@for (week of weeks(); track $index) {
-		<div class="week">
-			@for (day of week; track day.date) {
-					<div
-						class="day"
-						[ngClass]="{ 'other-month': !day.isCurrentMonth, 'today': day.isToday }"
-					>
-					<div class="day-header">
-						<div class="day-number">{{ day.date | date: 'd' }}</div>
-						<div class="day-name-mobile">{{ day.date | date: 'E' }}</div>
-					</div>
-					<div class="events">
-						@for (event of day.events; track event.id) {
-							<mat-card class="event-card">
-								<mat-card-title class="event-title" matTooltip="{{ event.title }}">{{ event.title }}</mat-card-title>
-							</mat-card>
-						}
-					</div>
+
+		@for (day of calendarDays(); track day.date) {
+			<div class="day" [class.other-month]="!day.isCurrentMonth" [class.today]="day.isToday">
+				<div class="day-header">
+					<div class="day-number">{{ day.date | date: 'd' }}</div>
+					<div class="day-name-mobile">{{ day.date | date: 'E' }}</div>
 				</div>
-			}
-		</div>
-	}
+				<div class="events">
+					@for (event of day.events; track event.id) {
+						<mat-card class="event-card">
+							<mat-card-title class="event-title" matTooltip="{{ event.title }}">{{ event.title }}</mat-card-title>
+						</mat-card>
+					}
+				</div>
+			</div>
+		}
+	</div>
 </div>
