@@ -26,7 +26,7 @@
 					<div class="events">
 						@for (event of day.events; track event.id) {
 							<mat-card class="event-card">
-								<mat-card-title class="event-title">{{ event.title }}</mat-card-title>
+								<mat-card-title class="event-title" matTooltip="{{ event.title }}">{{ event.title }}</mat-card-title>
 							</mat-card>
 						}
 					</div>
