@@ -111,6 +111,12 @@
 			flex-wrap: wrap;
 			justify-content: center;
 			gap: 8px;
+
+			.month-label {
+				order: -1;
+				width: 100%;
+				text-align: center;
+			}
 		}
 
 		.calendar-grid {
@@ -170,6 +176,12 @@
 				.event-card {
 					flex: 1;
 					margin-bottom: 0;
+
+					.event-title {
+						white-space: normal;
+						overflow: visible;
+						text-overflow: unset;
+					}
 				}
 			}
 		}
