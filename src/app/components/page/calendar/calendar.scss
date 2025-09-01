@@ -25,11 +25,13 @@
 			display: grid;
 			grid-template-columns: repeat(7, 1fr);
 			border-top: 1px solid #ccc;
+			border-left: 1px solid #ccc;
 
 			.day-name {
 				padding: 8px;
 				text-align: center;
 				border-bottom: 1px solid #ccc;
+				border-right: 1px solid #ccc;
 			}
 		}
 	}
@@ -47,14 +49,17 @@
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
 		min-height: 120px;
+		border-left: 1px solid #ccc;
 
 		.day {
 			padding: 8px;
 			border-right: 1px solid #ccc;
 			border-bottom: 1px solid #ccc;
+			min-width: 0;
+			overflow: hidden;
 
 			&:last-child {
-				border-right: none;
+				border-right: 1px solid #ccc;
 			}
 
 			&.other-month {
@@ -94,5 +99,68 @@
 
 	.week:last-child {
 		border-bottom: none;
+	}
+
+	.day-name-mobile {
+		display: none;
+	}
+}
+
+@media (max-width: 768px) {
+	.calendar-container {
+		.header {
+			.day-names {
+				display: none;
+			}
+		}
+
+		.week {
+			display: block;
+			border-left: none;
+
+			.day {
+				display: flex;
+				align-items: center;
+				padding: 12px 8px;
+				min-width: 100%;
+				border-left: 1px solid #ccc;
+				border-right: 1px solid #ccc;
+
+				&.other-month {
+					display: none;
+				}
+
+				.day-header {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					margin-right: 12px;
+					padding: 4px;
+					min-width: 40px;
+
+					.day-number {
+						font-size: 16px;
+					}
+
+					.day-name-mobile {
+						display: block;
+						font-size: 12px;
+						font-weight: normal;
+						color: #666;
+					}
+				}
+
+				.events {
+					display: flex;
+					flex-wrap: wrap;
+					gap: 8px;
+					flex: 1;
+
+					.event-card {
+						flex: 1 1 150px;
+					}
+				}
+			}
+		}
 	}
 }
