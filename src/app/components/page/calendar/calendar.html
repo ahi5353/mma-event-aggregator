@@ -1,7 +1,11 @@
 <div class="calendar-container">
-	<div class="header">
+<div class="header">
+	<div class="nav-header">
 		<button class="nav-button" (click)="goToPreviousMonth()">← 前月</button>
+		<div class="month-label">{{ currentDate() | date:'yyyy年M月' }}</div>
 		<button class="nav-button" (click)="goToNextMonth()">次月 →</button>
+	</div>
+	<div class="day-names">
 		<div class="day-name">月</div>
 		<div class="day-name">火</div>
 		<div class="day-name">水</div>
@@ -10,13 +14,14 @@
 		<div class="day-name">土</div>
 		<div class="day-name">日</div>
 	</div>
-	@for (week of weeks; track $index) {
+</div>
+	@for (week of weeks(); track $index) {
 		<div class="week">
 			@for (day of week; track day.date) {
-				<div
-					class="day"
-					[ngClass]="{ 'other-month': !day.isCurrentMonth }"
-				>
+					<div
+						class="day"
+						[ngClass]="{ 'other-month': !day.isCurrentMonth, 'today': day.isToday }"
+					>
 					<div class="day-number">{{ day.date | date: 'd' }}</div>
 					<div class="events">
 						@for (event of day.events; track event.id) {

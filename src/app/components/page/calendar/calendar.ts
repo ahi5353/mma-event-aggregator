@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { EventService } from '../../../services/event.service';
@@ -13,8 +13,8 @@ import { TournamentEvent } from '../../../services/model/tournament-event.model'
 	styleUrls: ['./calendar.scss'],
 })
 export class Calendar implements OnInit {
-	weeks: CalendarDay[][] = [];
-	currentDate = new Date();
+	weeks = signal<CalendarDay[][]>([]);
+	currentDate = signal(new Date());
 	eventsData: TournamentEvent[] = [];
 
 	constructor(private eventService: EventService) {}
@@ -22,7 +22,7 @@ export class Calendar implements OnInit {
 	ngOnInit(): void {
 		this.eventService.getEvents().subscribe((data) => {
 			this.eventsData = data;
-			this.buildCalendar(this.eventsData, this.currentDate);
+			this.buildCalendar(this.eventsData, this.currentDate());
 		});
 	}
 
@@ -43,12 +43,13 @@ export class Calendar implements OnInit {
 				date: new Date(currentDate),
 				events: this.getEventsForDay(events, currentDate),
 				isCurrentMonth: currentDate.getMonth() === month,
+				isToday: this.isToday(currentDate),
 			};
 			calendarDays.push(day);
 			currentDate.setDate(currentDate.getDate() + 1);
 		}
 
-		this.weeks = this.chunkArray(calendarDays, 7);
+		this.weeks.set(this.chunkArray(calendarDays, 7));
 	}
 
 	private getFirstDayOfWeek(date: Date): Date {
@@ -75,6 +76,11 @@ export class Calendar implements OnInit {
 		);
 	}
 
+	private isToday(date: Date): boolean {
+		const today = new Date();
+		return this.isSameDay(today, date);
+	}
+
 	private chunkArray<T>(array: T[], size: number): T[][] {
 		const chunks: T[][] = [];
 		for (let i = 0; i < array.length; i += size) {
@@ -84,12 +90,16 @@ export class Calendar implements OnInit {
 }
 
 	goToPreviousMonth(): void {
-		this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-		this.buildCalendar(this.eventsData, this.currentDate);
+		const newDate = new Date(this.currentDate());
+		newDate.setMonth(newDate.getMonth() - 1);
+		this.currentDate.set(newDate);
+		this.buildCalendar(this.eventsData, this.currentDate());
 	}
 
 	goToNextMonth(): void {
-		this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-		this.buildCalendar(this.eventsData, this.currentDate);
+		const newDate = new Date(this.currentDate());
+		newDate.setMonth(newDate.getMonth() + 1);
+		this.currentDate.set(newDate);
+		this.buildCalendar(this.eventsData, this.currentDate());
 	}
 }
