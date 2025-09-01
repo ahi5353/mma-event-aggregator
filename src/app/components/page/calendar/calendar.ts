@@ -14,7 +14,7 @@ import { TournamentEvent } from '../../../services/model/tournament-event.model'
 	styleUrls: ['./calendar.scss'],
 })
 export class Calendar implements OnInit {
-	weeks = signal<CalendarDay[][]>([]);
+	calendarDays = signal<CalendarDay[]>([]);
 	currentDate = signal(new Date());
 	eventsData: TournamentEvent[] = [];
 
@@ -50,7 +50,7 @@ export class Calendar implements OnInit {
 			currentDate.setDate(currentDate.getDate() + 1);
 		}
 
-		this.weeks.set(this.chunkArray(calendarDays, 7));
+		this.calendarDays.set(calendarDays);
 	}
 
 	private getFirstDayOfWeek(date: Date): Date {
