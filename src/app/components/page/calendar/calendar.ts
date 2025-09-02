@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EventService } from '../../../services/event.service';
@@ -9,7 +10,7 @@ import { TournamentEvent } from '../../../services/model/tournament-event.model'
 @Component({
 	selector: 'app-calendar',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [CommonModule, MatCardModule, DatePipe, MatTooltipModule],
+	imports: [CommonModule, MatCardModule, DatePipe, MatTooltipModule, RouterLink],
 	templateUrl: './calendar.html',
 	styleUrls: ['./calendar.scss'],
 })

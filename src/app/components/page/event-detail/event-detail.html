@@ -1,0 +1,26 @@
+<div class="detail-container">
+  @if (event(); as ev) {
+    <h1 class="event-title">{{ ev.title }}</h1>
+    <div class="event-meta">
+      <p><strong>開催日時:</strong> {{ ev.start | date:'yyyy年M月d日 H:mm' }}</p>
+      <p><strong>開催場所:</strong> {{ ev.meta.location }}</p>
+    </div>
+
+    <mat-card class="fight-card">
+      <mat-card-header>
+        <mat-card-title>対戦カード</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <ul class="fight-list">
+          @for (fight of ev.meta.card; track fight) {
+            <li class="fight-item">{{ fight }}</li>
+          }
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <a routerLink="/" class="back-link">カレンダーに戻る</a>
+  } @else {
+    <p>イベント情報を読み込んでいます...</p>
+  }
+</div>

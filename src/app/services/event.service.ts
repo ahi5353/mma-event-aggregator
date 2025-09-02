@@ -20,4 +20,10 @@ export class EventService {
 			})))
 		);
 	}
+
+	getEventById(id: string): Observable<TournamentEvent | undefined> {
+		return this.getEvents().pipe(
+			map(events => events.find(event => event.id === id))
+		);
+	}
 }
