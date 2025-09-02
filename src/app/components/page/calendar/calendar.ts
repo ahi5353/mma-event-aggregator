@@ -1,40 +1,41 @@
-import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	computed,
+	inject,
+	signal,
+} from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { EventService } from '../../../services/event.service';
 import { CalendarDay } from '../../../services/model/calendar-day.model';
 import { TournamentEvent } from '../../../services/model/tournament-event.model';
+import { EventDetail } from '../event-detail/event-detail';
 
 @Component({
 	selector: 'app-calendar',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [CommonModule, MatCardModule, DatePipe, MatTooltipModule, RouterLink],
+	imports: [CommonModule, MatCardModule, DatePipe, MatTooltipModule],
 	templateUrl: './calendar.html',
 	styleUrls: ['./calendar.scss'],
 })
-export class Calendar implements OnInit {
-	calendarDays = signal<CalendarDay[]>([]);
+export class Calendar {
+	private eventService = inject(EventService);
+	private dialog = inject(MatDialog);
+
+	private events = toSignal(this.eventService.getEvents(), { initialValue: [] });
 	currentDate = signal(new Date());
-	eventsData: TournamentEvent[] = [];
 
-	constructor(private eventService: EventService) {}
-
-	ngOnInit(): void {
-		this.eventService.getEvents().subscribe((data) => {
-			this.eventsData = data;
-			this.buildCalendar(this.eventsData, this.currentDate());
-		});
-	}
-
-	buildCalendar(events: TournamentEvent[], date: Date): void {
+	calendarDays = computed(() => {
+		const events = this.events();
+		const date = this.currentDate();
 		const year = date.getFullYear();
 		const month = date.getMonth();
-
 		const firstDayOfMonth = new Date(year, month, 1);
 		const lastDayOfMonth = new Date(year, month + 1, 0);
-
 		const firstDayOfWeek = this.getFirstDayOfWeek(firstDayOfMonth);
 
 		const calendarDays: CalendarDay[] = [];
@@ -50,9 +51,8 @@ export class Calendar implements OnInit {
 			calendarDays.push(day);
 			currentDate.setDate(currentDate.getDate() + 1);
 		}
-
-		this.calendarDays.set(calendarDays);
-	}
+		return calendarDays;
+	});
 
 	private getFirstDayOfWeek(date: Date): Date {
 		const dayOfWeek = date.getDay();
@@ -83,25 +83,28 @@ export class Calendar implements OnInit {
 		return this.isSameDay(today, date);
 	}
 
-	private chunkArray<T>(array: T[], size: number): T[][] {
-		const chunks: T[][] = [];
-		for (let i = 0; i < array.length; i += size) {
-			chunks.push(array.slice(i, i + size));
-		}
-	return chunks;
-}
-
 	goToPreviousMonth(): void {
-		const newDate = new Date(this.currentDate());
-		newDate.setMonth(newDate.getMonth() - 1);
-		this.currentDate.set(newDate);
-		this.buildCalendar(this.eventsData, this.currentDate());
+		this.currentDate.update((d) => {
+			const newDate = new Date(d);
+			newDate.setMonth(newDate.getMonth() - 1);
+			return newDate;
+		});
 	}
 
 	goToNextMonth(): void {
-		const newDate = new Date(this.currentDate());
-		newDate.setMonth(newDate.getMonth() + 1);
-		this.currentDate.set(newDate);
-		this.buildCalendar(this.eventsData, this.currentDate());
+		this.currentDate.update((d) => {
+			const newDate = new Date(d);
+			newDate.setMonth(newDate.getMonth() + 1);
+			return newDate;
+		});
+	}
+
+	openEventModal(event: TournamentEvent): void {
+		this.dialog.open(EventDetail, {
+			data: event,
+			width: '80%',
+			maxWidth: '600px',
+			autoFocus: false,
+		});
 	}
 }
