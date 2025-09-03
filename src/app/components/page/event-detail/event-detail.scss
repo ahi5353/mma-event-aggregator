@@ -66,12 +66,21 @@
 	}
 }
 
+:host {
+	.close-button {
+		display: none; // デフォルトでは非表示
+	}
+}
+
 @media (max-width: 768px) {
 	:host {
 		.fight-card {
 			.player {
 				font-size: 14px; // Smaller font on mobile
 			}
+		}
+		.close-button {
+			display: block; // モバイルで表示
 		}
 	}
 }
