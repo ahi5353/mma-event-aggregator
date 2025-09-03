@@ -1,8 +1,5 @@
 :host {
 	.detail-container {
-		padding: 20px;
-		height: 80vh;
-		max-height: 80vh;
 		overflow-y: auto;
 	}
 
@@ -12,5 +9,13 @@
 
 	.event-meta {
 		padding-bottom: 16px;
+	}
+
+	.fight-card {
+		mat-list-item {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 	}
 }
