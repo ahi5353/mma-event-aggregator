@@ -1,6 +1,7 @@
 :host {
 	.detail-container {
 		overflow-y: auto;
+		max-height: 70vh;
 	}
 
 	.event-title {
@@ -12,10 +13,65 @@
 	}
 
 	.fight-card {
-		mat-list-item {
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
+		mat-card-header {
+			justify-content: center;
+		}
+
+		.fight-list {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			padding: 8px 0;
+		}
+
+		.fight-item {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
+			gap: 8px;
+			border-bottom: 1px solid #eee;
+			padding-bottom: 16px;
+
+			&:last-child {
+				border-bottom: none;
+			}
+		}
+
+		.player {
+			flex: 1;
+			font-size: 16px;
+		}
+
+		.player1 {
+			text-align: right;
+		}
+
+		.player2 {
+			text-align: left;
+		}
+
+		.vs {
+			font-size: 14px;
+			color: #757575;
+			flex-shrink: 0;
+		}
+
+		.full-width-fight {
+			width: 100%;
+			text-align: center;
+			font-size: 14px;
+			color: #666;
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	:host {
+		.fight-card {
+			.player {
+				font-size: 14px; // Smaller font on mobile
+			}
 		}
 	}
 }
