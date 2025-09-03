@@ -13,6 +13,10 @@
 	}
 
 	.fight-card {
+		mat-card-header {
+			justify-content: center;
+		}
+
 		.fight-list {
 			display: flex;
 			flex-direction: column;
