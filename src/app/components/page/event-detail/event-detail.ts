@@ -1,28 +1,24 @@
-import { ChangeDetectionStrategy, Component, inject, signal, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { EventService } from '../../../services/event.service';
-import { TournamentEvent } from '../../../services/model/tournament-event.model';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { TournamentEvent } from '../../../services/model/tournament-event.model';
 
 @Component({
-  selector: 'app-event-detail',
-  imports: [CommonModule, RouterLink, MatCardModule, DatePipe],
-  templateUrl: './event-detail.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+	selector: 'app-event-detail',
+	imports: [
+		CommonModule,
+		MatCardModule,
+		DatePipe,
+		MatDialogModule,
+		MatListModule,
+		MatButtonModule,
+	],
+	templateUrl: './event-detail.html',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventDetail implements OnInit {
-  private route = inject(ActivatedRoute);
-  private eventService = inject(EventService);
-
-  event = signal<TournamentEvent | undefined>(undefined);
-
-  ngOnInit(): void {
-    const eventId = this.route.snapshot.paramMap.get('id');
-    if (eventId) {
-      this.eventService.getEventById(eventId).subscribe(event => {
-        this.event.set(event);
-      });
-    }
-  }
+export class EventDetail {
+	event = signal<TournamentEvent>(inject(MAT_DIALOG_DATA));
 }

@@ -1,55 +1,41 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
-import { EventService } from '../../../services/event.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EventDetail } from './event-detail';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 describe('EventDetail', () => {
-  let component: EventDetail;
-  let fixture: ComponentFixture<EventDetail>;
-  let mockEventService: jasmine.SpyObj<EventService>;
+	let component: EventDetail;
+	let fixture: ComponentFixture<EventDetail>;
 
-  const mockActivatedRoute = {
-    snapshot: {
-      paramMap: {
-        get: (key: string) => '123', // return a mock ID
-      },
-    },
-  };
+	const mockDialogData = {
+		id: '123',
+		title: 'Test Event',
+		start: new Date(),
+		meta: {
+			location: 'Test Location',
+			organization: 'Test Org',
+			description: 'http://test.com',
+			source: 'Test Source',
+			card: ['Fight 1', 'Fight 2'],
+			results: [],
+		},
+	};
 
-  beforeEach(async () => {
-    // Create a spy object for the EventService
-    mockEventService = jasmine.createSpyObj('EventService', ['getEventById']);
-    // Configure the spy to return a mock event
-    mockEventService.getEventById.and.returnValue(of({
-      id: '123',
-      title: 'Test Event',
-      start: new Date(),
-      meta: {
-        location: 'Test Location',
-        organization: 'Test Org',
-        description: '',
-        source: '',
-        card: ['Fight 1', 'Fight 2'],
-        results: [],
-      }
-    }));
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [EventDetail],
+			providers: [
+				{ provide: MAT_DIALOG_DATA, useValue: mockDialogData },
+				provideNoopAnimations(),
+			],
+		}).compileComponents();
 
-    await TestBed.configureTestingModule({
-      imports: [EventDetail, HttpClientTestingModule],
-      providers: [
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        { provide: EventService, useValue: mockEventService }
-      ],
-    }).compileComponents();
+		fixture = TestBed.createComponent(EventDetail);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-    fixture = TestBed.createComponent(EventDetail);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });
