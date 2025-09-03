@@ -13,9 +13,11 @@
 
 	.fight-card {
 		mat-list-item {
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
+			white-space: normal;
+			word-break: break-all;
+			font-size: 14px;
+			height: auto !important;
+			padding-bottom: 8px;
 		}
 	}
 }
