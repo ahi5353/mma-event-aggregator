@@ -1,6 +1,6 @@
-<div class="detail-container">
-	@if (event(); as ev) {
-		<h1 class="event-title">{{ ev.title }}</h1>
+@if (event(); as ev) {
+	<h1 mat-dialog-title class="event-title">{{ ev.title }}</h1>
+	<mat-dialog-content class="detail-container">
 		<div class="event-meta">
 			<p><strong>開催日時:</strong> {{ ev.start | date: 'yyyy年M月d日 H:mm' }}</p>
 			<p><strong>開催場所:</strong> {{ ev.meta.location }}</p>
@@ -18,7 +18,8 @@
 				</mat-list>
 			</mat-card-content>
 		</mat-card>
-
+	</mat-dialog-content>
+	<mat-dialog-actions>
 		<a
 			mat-raised-button
 			color="primary"
@@ -29,7 +30,7 @@
 		>
 			情報取得元サイトへ
 		</a>
-	} @else {
-		<p>イベント情報を読み込んでいます...</p>
-	}
-</div>
+	</mat-dialog-actions>
+} @else {
+	<p>イベント情報を読み込んでいます...</p>
+}

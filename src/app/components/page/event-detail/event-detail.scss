@@ -1,0 +1,21 @@
+:host {
+	.detail-container {
+		overflow-y: auto;
+	}
+
+	.event-title {
+		padding-bottom: 16px;
+	}
+
+	.event-meta {
+		padding-bottom: 16px;
+	}
+
+	.fight-card {
+		mat-list-item {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+}

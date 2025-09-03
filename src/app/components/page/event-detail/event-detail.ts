@@ -17,6 +17,7 @@ import { TournamentEvent } from '../../../services/model/tournament-event.model'
 		MatButtonModule,
 	],
 	templateUrl: './event-detail.html',
+	styleUrl: './event-detail.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventDetail {
