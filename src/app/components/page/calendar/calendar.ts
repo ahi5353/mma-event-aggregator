@@ -103,7 +103,7 @@ export class Calendar {
 		this.dialog.open(EventDetail, {
 			data: event,
 			width: '80%',
-			maxWidth: '600px',
+			maxWidth: '900px',
 			autoFocus: false,
 		});
 	}
