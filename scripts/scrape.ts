@@ -59,13 +59,26 @@ const scrapeEventPage = async (url: string): Promise<Event | null> => {
         location = locationPart.replace('開催地:', '').trim();
     }
 
-    const card: string[] = [];
-    $('.detail-content p, .detail-content div').each((_, element) => {
-        const text = $(element).text().trim().replace(/\s+/g, ' ');
-        if (text.includes('vs')) {
-            card.push(text);
+    const cardSet = new Set<string>();
+    const content = $('.detail-content');
+    content.find('br').replaceWith('\n');
+    const text = content.text();
+    const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+
+    for (let i = 0; i < lines.length; i++) {
+        if (lines[i].startsWith('▼')) {
+            if (i + 2 < lines.length && !lines[i+1].startsWith('▼') && !lines[i+2].startsWith('▼')) {
+                const fighter1 = lines[i+1].replace(/（.*）/g, '').trim();
+                const fighter2 = lines[i+2].replace(/（.*）/g, '').trim();
+                if (fighter1 && fighter2) {
+                    cardSet.add(`${fighter1} vs ${fighter2}`);
+                }
+                i += 2;
+            }
         }
-    });
+    }
+
+    const card = Array.from(cardSet);
 
     return {
       id: uuidv5(url, NAMESPACE),
@@ -134,6 +147,15 @@ const main = async () => {
     scrapedEvents.forEach(event => eventsMap.set(event.id, event));
 
     const allEvents = Array.from(eventsMap.values());
+
+    allEvents.forEach(event => {
+        const cardSet = new Set<string>();
+        event.meta.card.forEach(match => {
+            const cleanedMatch = match.replace(/^(第\d+試合／|・)/, '').trim();
+            cardSet.add(cleanedMatch);
+        });
+        event.meta.card = Array.from(cardSet);
+    });
 
     const now = new Date();
     const oneYearAgo = new Date();
