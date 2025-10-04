@@ -1,47 +1,47 @@
-# Design Document
+# 設計書
 
-This document outlines the design and architecture of the application.
+このドキュメントは、アプリケーションの設計とアーキテクチャの概要を説明します。
 
-## 1. Introduction
+## 1. はじめに
 
-This application is a simple event calendar that displays tournament events. Users can view events on a calendar, navigate between months, and see the details of each event, including the fight card.
+このアプリケーションは、トーナメントイベントを表示するシンプルなイベントカレンダーです。ユーザーはカレンダーでイベントを閲覧し、月を移動し、各イベントの詳細（対戦カードなど）を確認できます。
 
-## 2. Architecture
+## 2. アーキテクチャ
 
-The application is built with Angular and follows a component-based architecture. It uses Angular Material for UI components and signals for state management. The overall structure is as follows:
+このアプリケーションはAngularで構築されており、コンポーネントベースのアーキテクチャに従っています。UIコンポーネントにはAngular Materialを、状態管理にはシグナルを使用しています。全体的な構造は以下の通りです。
 
-- **`EventService`**: A root-level service responsible for fetching event data.
-- **Components**: The UI is composed of several components:
-  - **`Calendar`**: The main component that displays the calendar.
-  - **`EventDetail`**: A component that shows the details of an event in a dialog.
-- **Data Model**: The application uses a `TournamentEvent` model to represent event data.
+- **`EventService`**: イベントデータの取得を担当するルートレベルのサービスです。
+- **コンポーネント**: UIはいくつかのコンポーネントで構成されています。
+  - **`Calendar`**: カレンダーを表示するメインコンポーネントです。
+  - **`EventDetail`**: ダイアログでイベントの詳細を表示するコンポーネントです。
+- **データモデル**: アプリケーションは`TournamentEvent`モデルを使用してイベントデータを表現します。
 
-## 3. Components
+## 3. コンポーネント
 
-### 3.1. Calendar Component
+### 3.1. Calendar コンポーネント
 
-- **File**: `src/app/components/page/calendar/calendar.ts`
-- **Description**: This component displays a monthly calendar grid. It fetches events from the `EventService` and places them on the corresponding days.
-- **Features**:
-  - Displays a calendar for the current month.
-  - Allows users to navigate to the previous and next months.
-  - Shows the number of events on each day.
-  - Opens a dialog with event details when a day is clicked.
+- **ファイル**: `src/app/components/page/calendar/calendar.ts`
+- **説明**: このコンポーネントは月間カレンダーグリッドを表示します。`EventService`からイベントを取得し、対応する日に配置します。
+- **機能**:
+  - 現在の月のカレンダーを表示します。
+  - ユーザーが前月と翌月に移動できるようにします。
+  - 各日のイベント数を表示します。
+  - 日付がクリックされたときにイベント詳細を含むダイアログを開きます。
 
-### 3.2. EventDetail Component
+### 3.2. EventDetail コンポーネント
 
-- **File**: `src/app/components/page/event-detail/event-detail.ts`
-- **Description**: This component displays the details of a single tournament event in a dialog.
-- **Features**:
-  - Shows the event's title, date, and other metadata.
-  - Parses and displays the fight card, showing the matchups between players.
+- **ファイル**: `src/app/components/page/event-detail/event-detail.ts`
+- **説明**: このコンポーネントは、ダイアログで単一のトーナメントイベントの詳細を表示します。
+- **機能**:
+  - イベントのタイトル、日付、その他のメタデータを表示します。
+  - 対戦カードを解析して表示し、プレイヤー間の対戦相手を示します。
 
-## 4. Services
+## 4. サービス
 
 ### 4.1. EventService
 
-- **File**: `src/app/services/event.service.ts`
-- **Description**: This service is responsible for fetching event data from a JSON file (`events.json`).
-- **Methods**:
-  - **`getEvents()`**: Returns an `Observable` of all `TournamentEvent` objects.
-  - **`getEventById(id: string)`**: Returns an `Observable` of a single `TournamentEvent` that matches the given ID.
+- **ファイル**: `src/app/services/event.service.ts`
+- **説明**: このサービスは、JSONファイル（`events.json`）からイベントデータを取得する責任があります。
+- **メソッド**:
+  - **`getEvents()`**: すべての`TournamentEvent`オブジェクトの`Observable`を返します。
+  - **`getEventById(id: string)`**: 指定されたIDに一致する単一の`TournamentEvent`の`Observable`を返します。
