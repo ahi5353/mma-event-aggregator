@@ -32,7 +32,7 @@
     "@angular/material": "^20.2.1",
     "@angular/platform-browser": "^20.2.0",
     "@angular/router": "^20.2.0",
-  "@angular/service-worker": "20.2.3",
+    "@angular/service-worker": "20.2.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -44,6 +44,7 @@
     "@types/cheerio": "^0.22.35",
     "@types/jasmine": "~5.1.0",
     "@types/uuid": "^10.0.0",
+    "angular-cli-ghpages": "^2.0.3",
     "axios": "^1.11.0",
     "cheerio": "^1.1.2",
     "jasmine-core": "~5.9.0",
