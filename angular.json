@@ -17,6 +17,7 @@
 				"build": {
 					"builder": "@angular/build:application",
 					"options": {
+						"outputPath": "dist/mma-event-colendar",
 						"browser": "src/main.ts",
 						"polyfills": [
 							"zone.js"
@@ -93,6 +94,16 @@
 							"src/styles.scss"
 						],
 						"karmaConfig": "karma.conf.js"
+					}
+				},
+				"deploy": {
+					"builder": "angular-cli-ghpages:deploy",
+					"options": {
+						"buildTarget": "mma-event-colendar:build:production",
+						"baseHref": "/test-repo/",
+						"name": "test-user",
+						"email": "test-user@example.com",
+						"repo": "https://github.com/test-user/test-repo.git"
 					}
 				}
 			}
